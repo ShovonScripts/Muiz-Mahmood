@@ -1,16 +1,14 @@
-import AceTernityLogo from "@/components/logos/aceternity";
 import SlideShow from "@/components/slide-show";
 import { Button } from "@/components/ui/button";
 import { TypographyH3, TypographyP } from "@/components/ui/typography";
-import { ArrowUpRight, ExternalLink, Link2, MoveUpRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowUpRight, Play } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 const BASE_PATH = "/assets/projects-screenshots";
 
 // Renders a brand SVG from /public as a monochrome glyph that inherits the
 // surrounding text color (the skill dock styles every icon via currentColor),
-// so full-color marks like Mistral flatten to match the rest of the set.
+// so each tool mark stays consistent across themes.
 const MaskIcon = ({ src, title }: { src: string; title?: string }) => (
   <span
     role="img"
@@ -31,7 +29,7 @@ const MaskIcon = ({ src, title }: { src: string; title?: string }) => (
   />
 );
 
-const ProjectsLinks = ({ live, repo }: { live?: string; repo?: string }) => {
+const ProjectsLinks = ({ live, video }: { live?: string; video?: string }) => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-start gap-3 my-3 mb-8">
       {live && live !== "#" && (
@@ -47,16 +45,16 @@ const ProjectsLinks = ({ live, repo }: { live?: string; repo?: string }) => {
           </Button>
         </Link>
       )}
-      {repo && repo !== "#" && (
+      {video && video !== "#" && (
         <Link
           className="font-mono underline flex gap-2"
           rel="noopener"
           target="_new"
-          href={repo}
+          href={video}
         >
           <Button variant={"default"} size={"sm"}>
-            Github
-            <ArrowUpRight className="ml-3 w-5 h-5" />
+            Watch Reel
+            <Play className="ml-3 w-5 h-5" />
           </Button>
         </Link>
       )}
@@ -70,783 +68,391 @@ export type Skill = {
   fg: string;
   icon: ReactNode;
 };
-// Brand chips sourced from thesvg CLI mono SVGs in /public/assets/logos,
-// rendered via MaskIcon so each one inherits the dock's currentColor.
+// White keycap glyphs double as monochrome tool marks in the project dock.
 const brand = (title: string, file: string): Skill => ({
   title,
   bg: "black",
   fg: "white",
-  icon: <MaskIcon src={`/assets/logos/${file}`} title={title} />,
+  icon: <MaskIcon src={`/assets/keyboard/logos/${file}.svg`} title={title} />,
 });
 const PROJECT_SKILLS = {
-  next: brand("Next.js", "nextdotjs-mono.svg"),
-  chakra: brand("Chakra UI", "chakra-ui-mono.svg"),
-  node: brand("Node.js", "nodedotjs-mono.svg"),
-  python: brand("Python", "python-mono.svg"),
-  prisma: brand("Prisma", "prisma-mono.svg"),
-  postgres: brand("PostgreSQL", "postgresql-mono.svg"),
-  mongo: brand("MongoDB", "mongodb-mono.svg"),
-  express: brand("Express", "express-mono.svg"),
-  reactQuery: brand("React Query", "react-query-mono.svg"),
-  shadcn: brand("shadcn/ui", "shadcn-ui-mono.svg"),
-  // Not in the thesvg registry — keep the existing custom logo.
-  aceternity: {
-    title: "Aceternity",
-    bg: "black",
-    fg: "white",
-    icon: <AceTernityLogo />,
-  },
-  tailwind: brand("Tailwind", "tailwind-css-mono.svg"),
-  docker: brand("Docker", "docker-mono.svg"),
-  // Not in the thesvg registry — keep the text mark.
-  yjs: {
-    title: "Y.js",
-    bg: "black",
-    fg: "white",
-    icon: (
-      <span>
-        <strong>Y</strong>js
-      </span>
-    ),
-  },
-  firebase: brand("Firebase", "firebase-mono.svg"),
-  sockerio: brand("Socket.io", "socketdotio-mono.svg"),
-  js: brand("JavaScript", "javascript-mono.svg"),
-  ts: brand("TypeScript", "typescript-mono.svg"),
-  vue: brand("Vue.js", "vuedotjs-mono.svg"),
-  react: brand("React.js", "react-mono.svg"),
-  sanity: brand("Sanity", "sanity-mono.svg"),
-  gsap: brand("GSAP", "gsap-mono.svg"),
-  motion: brand("Motion", "motion.svg"),
-  supabase: brand("Supabase", "supabase-mono.svg"),
-  trpc: brand("tRPC", "trpc-mono.svg"),
-  drizzle: brand("Drizzle ORM", "drizzle-mono.svg"),
-  hono: brand("Hono", "hono-mono.svg"),
-  redis: brand("Redis / BullMQ", "redis-mono.svg"),
-  cloudflare: brand("Cloudflare", "cloudflare-mono.svg"),
-  // React Native reuses the React mark.
-  reactNative: brand("React Native", "react-mono.svg"),
-  betterAuth: brand("Better Auth", "better-auth-mono.svg"),
-  // Not in the thesvg registry — keep the text marks.
-  zustand: {
-    title: "Zustand",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-xs font-bold">Zu</span>,
-  },
-  partykit: {
-    title: "PartyKit",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-base">🎈</span>,
-  },
-  hocuspocus: {
-    title: "Hocuspocus",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-xs font-bold">Hp</span>,
-  },
-  // React Flow ships under the xyflow brand.
-  reactFlow: brand("React Flow", "xyflow-mono.svg"),
-  codemirror: brand("CodeMirror", "codemirror-mono.svg"),
-  // "Satori / sharp" — uses the sharp mark.
-  satori: brand("Satori / sharp", "sharp-mono.svg"),
-  turborepo: brand("Turborepo", "turborepo-mono.svg"),
-  // Vercel AI SDK uses the Vercel mark.
-  aiSDK: brand("Vercel AI SDK", "vercel-mono.svg"),
-  anthropic: brand("Anthropic Claude", "anthropic-mono.svg"),
-  mistral: brand("Mistral AI", "mistral-ai-mono.svg"),
-  electron: brand("Electron", "electron-mono.svg"),
-  vite: brand("Vite", "vite-mono.svg"),
-  astro: brand("Astro", "astro-mono.svg"),
-  sqlite: brand("SQLite", "sqlite-mono.svg"),
-  ffmpeg: brand("FFmpeg", "ffmpeg-mono.svg"),
-  ollama: brand("Ollama", "ollama-mono.svg"),
-  // Not in the thesvg registry — keep the text mark.
-  nextIntl: {
-    title: "next-intl",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-xs font-bold">i18n</span>,
-  },
-  // Not in the thesvg registry — keep the text marks.
-  expo: {
-    title: "Expo",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-xs font-bold">Expo</span>,
-  },
-  mcp: {
-    title: "MCP",
-    bg: "black",
-    fg: "white",
-    icon: <span className="text-xs font-bold">MCP</span>,
-  },
+  aftereffects: brand("After Effects", "aftereffects"),
+  premiere: brand("Premiere Pro", "premiere"),
+  photoshop: brand("Photoshop", "photoshop"),
+  illustrator: brand("Illustrator", "illustrator"),
+  blender: brand("Blender", "blender"),
+  unreal: brand("Unreal Engine 5", "unreal"),
+  clo: brand("CLO 3D", "clo"),
+  sketchup: brand("SketchUp", "sketchup"),
+  lumion: brand("Lumion", "lumion"),
+  mocha: brand("Mocha Pro", "mocha"),
+  silhouette: brand("SilhouetteFX", "silhouette"),
+  element3d: brand("Element 3D", "element3d"),
+  geotracker: brand("GeoTracker", "geotracker"),
+  redgiant: brand("Red Giant", "redgiant"),
+  hdr: brand("HDR Light Studio", "hdrlightstudio"),
+  compositing: brand("Compositing", "compositing"),
+  rotoscoping: brand("Rotoscoping", "rotoscoping"),
+  rendering: brand("3D Rendering", "rendering"),
 };
+
 export type Project = {
   id: string;
   category: string;
   title: string;
   src: string;
   screenshots: string[];
-  skills: { frontend: Skill[]; backend: Skill[] };
+  tools: Skill[];
+  deliverables: string[];
   content: React.ReactNode | any;
-  github?: string;
-  live: string;
+  live?: string;
+  video?: string;
+  note?: string;
 };
+
 const projects: Project[] = [
   {
-    id: "storekit",
-    category: "Commerce platform",
-    title: "StoreKit",
-    src: "/assets/projects-screenshots/storekit/landing.png",
-    screenshots: ["landing.png"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.reactNative,
-        PROJECT_SKILLS.tailwind,
-      ],
-      backend: [
-        PROJECT_SKILLS.hono,
-        PROJECT_SKILLS.trpc,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.redis,
-        PROJECT_SKILLS.betterAuth,
-        PROJECT_SKILLS.cloudflare,
-        PROJECT_SKILLS.docker,
-      ],
-    },
-    live: "https://storekit.app/",
-    // Private repo (commercial product) — intentionally no public source link
+    id: "beautyboss",
+    category: "3D Product Visualization",
+    title: "BeautyBoss",
+    src: `${BASE_PATH}/beautyboss/cover.png`,
+    screenshots: [
+      `${BASE_PATH}/beautyboss/01.png`,
+      `${BASE_PATH}/beautyboss/02.png`,
+    ],
+    tools: [
+      PROJECT_SKILLS.blender,
+      PROJECT_SKILLS.clo,
+      PROJECT_SKILLS.hdr,
+      PROJECT_SKILLS.photoshop,
+      PROJECT_SKILLS.rendering,
+    ],
+    deliverables: [
+      "Cosmetic product models",
+      "Branded storefront renders",
+      "E-commerce visuals",
+    ],
+    live: "https://www.beautyboss.com",
     get content() {
       return (
         <div>
           <TypographyP className="font-mono text-2xl text-center">
-            A production-grade, multi-tenant commerce platform — Shopify-class,
-            built solo.
+            Photoreal 3D product renders for cosmetic brands.
           </TypographyP>
-          <TypographyP className="font-mono ">
-            Architected and built end-to-end as a single engineer: a
-            pnpm/Turborepo monorepo spanning 6 applications and 11 shared
-            packages — merchant dashboard, customer storefront, headless REST
-            API, and two React Native apps (customer + POS) — with a shared
-            type-safe core (54-table Drizzle/Postgres schema, 33 tRPC v11
-            routers, end-to-end inference). ~238K lines of TypeScript powering 4
-            storefront verticals: e-commerce, food delivery, quick-commerce, and
-            digital goods.
+          <TypographyP className="font-mono">
+            As a 3D Product Visualizer at BeautyBoss, I model cosmetic products
+            and produce high-quality renders with merchant-specific branding for
+            their storefronts. Each asset is built to read clearly at thumbnail
+            size while holding up as a full-resolution product image.
           </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
+          <ProjectsLinks live={this.live} />
 
-          <TypographyH3 className="my-4 mt-8">Payments &amp; reliability</TypographyH3>
+          <TypographyH3 className="my-4 mt-8">
+            Modeling &amp; materials
+          </TypographyH3>
           <p className="font-mono mb-2">
-            A PhonePe payment integration with OAuth2 token exchange, Redis-cached
-            per-store tokens, and idempotency keys on orders/transactions/refunds
-            so checkout survives refreshes and duplicate webhooks without
-            double-charging. Payment credentials are encrypted at rest and webhook
-            signatures verified to prevent tampering, with a BullMQ/Redis async
-            layer (5 retries, exponential backoff) driving notifications and order
-            jobs — every webhook event logged for replay.
+            Product geometry is modeled in Blender and CLO 3D, with materials
+            tuned for glass, plastic, and coated cosmetic packaging. Branding is
+            applied per merchant so the same product family can ship in
+            different storefront identities without re-modeling.
           </p>
           <SlideShow
             images={[
-              `${BASE_PATH}/storekit/orders.png`,
-              `${BASE_PATH}/storekit/login.png`,
+              `${BASE_PATH}/beautyboss/01.png`,
+              `${BASE_PATH}/beautyboss/02.png`,
             ]}
           />
 
-          <TypographyH3 className="my-4 mt-8">AI storefront generation</TypographyH3>
+          <TypographyH3 className="my-4 mt-8">Lighting &amp; delivery</TypographyH3>
           <p className="font-mono mb-2">
-            <em>In progress.</em> An agentic generator where an LLM writes real
-            storefront code inside isolated container sandboxes, gated by a
-            type-check + lint pass so broken code never lands — then deploys each
-            store programmatically as its own Cloudflare Worker through a
-            queue-driven pipeline, with a fleet health monitor that auto-rolls-back
-            failing deployments within minutes.
+            Studio lighting is built in HDR Light Studio and rendered for
+            e-commerce use, with retouching and final cleanup in Photoshop.
+            Renders are delivered as clean, launch-ready assets for product
+            pages and campaign creative.
           </p>
-
-          <TypographyH3 className="my-4 mt-8">Domain modeling &amp; breadth</TypographyH3>
-          <p className="font-mono mb-2">
-            An explicit order state-machine spans the 4 verticals with
-            illegal-transition guards, fronted by a typed event bus and a
-            per-store plugin registry for pluggable lifecycle behavior without
-            touching core code. The merchant dashboard ships a visual theme
-            builder, analytics, inventory, coupons, abandoned-cart recovery, and
-            Pixie — an in-product AI agent that manages the store via tool-calling
-            over live data. The POS app does Bluetooth ESC/POS thermal printing,
-            mDNS/TCP printer discovery, and barcode scanning.
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/storekit/storefront.png`,
-              `${BASE_PATH}/storekit/themes.png`,
-            ]}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    id: "unottr",
-    category: "Local-first desktop app",
-    title: "unottr",
-    src: "/assets/projects-screenshots/unottr/landing.webp",
-    screenshots: ["landing.webp"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.electron,
-        PROJECT_SKILLS.vite,
-        PROJECT_SKILLS.tailwind,
-        PROJECT_SKILLS.astro,
-      ],
-      backend: [
-        PROJECT_SKILLS.node,
-        PROJECT_SKILLS.sqlite,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.ffmpeg,
-        PROJECT_SKILLS.aiSDK,
-        PROJECT_SKILLS.ollama,
-        PROJECT_SKILLS.cloudflare,
-      ],
-    },
-    live: "https://unottr.pages.dev",
-    github: "https://github.com/Naresh-Khatri/unottr",
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono text-2xl text-center">
-            Private meeting memory — &quot;your meetings stay yours.&quot;
-          </TypographyP>
-          <TypographyP className="font-mono ">
-            A desktop app that watches a folder for meeting recordings and turns
-            them into searchable, speaker-labelled transcripts with the video
-            playing beside them. No account, no sign-in, no background upload:
-            transcription, speaker separation and search all run on your own
-            machine. Built with Electron, React 19 and TypeScript, it ships
-            natively for Linux x64 and Apple Silicon and sells as a one-time
-            $79 license instead of a subscription.
-          </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Drop a file, get a transcript
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            Any new file in a watched folder is probed, transcribed and diarized
-            on its own, with no import step or start button. Every pipeline stage
-            (discover → probe → extract → detect speech → transcribe → diarize →
-            merge → index) is a persisted queue state, so a crash resumes at a
-            stage boundary instead of starting over. Whisper runs on Vulkan or
-            Metal in ~30s VAD-aligned chunks, each written to SQLite as it lands,
-            inside a forked utility process, so a native crash kills one job and
-            not the app. Speaker identification uses Sortformer on a Vulkan GPU
-            (a five-minute sample in under 6 seconds) with sherpa-onnx as the CPU
-            fallback, and named speakers are recognised in later meetings by
-            voiceprint.
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/unottr/transcript.png`,
-              `${BASE_PATH}/unottr/library.png`,
-            ]}
-          />
-
-          <TypographyH3 className="my-4 mt-8">
-            Search every word, land on the exact second
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            Full-text search (SQLite FTS5) across every transcript, summary and
-            note opens the recording at the matching timestamp. A command palette,
-            a player with speaker bands on the scrub bar and frame previews on
-            hover, and reversible glossary rules for names and acronyms all make
-            the library quicker to work with. Transcripts export as
-            TXT/JSON/SRT/VTT and mirror to Markdown notes.
-          </p>
-
-          <TypographyH3 className="my-4 mt-8">
-            Optional AI with citations that cannot lie
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            Nothing touches a model until you ask. Overviews and Ask threads run
-            on a connection you choose: Ollama or LM Studio on the same machine,
-            your own OpenAI/Anthropic/Mistral key, or an installed Claude Code,
-            Codex or Antigravity CLI sandboxed in a temp directory. The model only
-            sees segment IDs, which resolve to timestamps in one place, and any
-            citation that doesn&apos;t resolve is dropped, so it can never invent
-            a confident link into the wrong minute. Before the first send, a
-            consent panel shows the exact payload; audio, video and frames never
-            leave the device.
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/unottr/overview.png`,
-              `${BASE_PATH}/unottr/ai-connection.png`,
-            ]}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    id: "codingducks",
-    category: "Real-time coding platform",
-    title: "Coding Ducks",
-    src: "/assets/projects-screenshots/codingducks/landing.png",
-    screenshots: ["landing.png"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.tailwind,
-        PROJECT_SKILLS.codemirror,
-        PROJECT_SKILLS.reactFlow,
-      ],
-      backend: [
-        PROJECT_SKILLS.node,
-        PROJECT_SKILLS.trpc,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.yjs,
-        PROJECT_SKILLS.hocuspocus,
-        PROJECT_SKILLS.betterAuth,
-        PROJECT_SKILLS.docker,
-      ],
-    },
-    live: "https://www.codingducks.xyz/",
-    github: "https://github.com/Naresh-Khatri/Coding-Ducks",
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono text-2xl text-center">
-            A multi-language judge, a CRDT collaborative editor, and a
-            system-design simulation game — in one platform.
-          </TypographyP>
-          <TypographyP className="font-mono ">
-            Coding Ducks is a full-stack, real-time coding platform built as a
-            production-grade Turborepo monorepo (2 apps, 7 shared packages) in
-            strict TypeScript — Next.js 16 / React 19, a tRPC v11 type-safe API,
-            PostgreSQL + Drizzle ORM (18 tables), and a standalone real-time
-            Node service, with enforced one-way apps → packages dependency
-            boundaries.
-          </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Ducklets — real-time collaborative editor
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            A multiplayer code editor built on Y.js CRDTs and a standalone
-            Hocuspocus WebSocket server — concurrent editing, live cursor
-            presence, and conflict-free merging persisted to Postgres as
-            versioned binary state. Secured by a custom HMAC-SHA256 signed-token
-            scheme (constant-time verification, 1-hour TTL) with owner / editor
-            / viewer RBAC re-verified live against the DB so permission
-            revocation takes effect mid-session. Includes room forking,
-            point-in-time snapshots, idempotent chat, and throttled live
-            previews (Puppeteer + Cloudflare R2, coalesced to ≤1 render/60s).
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/codingducks/ducklets-editor.png`,
-              `${BASE_PATH}/codingducks/ducklets.png`,
-            ]}
-          />
-
-          <TypographyH3 className="my-4 mt-8">
-            CD Judge — in-house code execution engine
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            A free, self-hostable, Judge0-class execution engine supporting 10
-            languages (Python, JS, TS, Java, C, C++, Rust, Go, Ruby, PHP) with per-language
-            driver/harness generation that injects test cases, parses typed
-            arguments, and redacts hidden-test output. An asynchronous submit →
-            poll → verdict pipeline uses an optimistic-locking finalizer
-            (UPDATE … WHERE status=&apos;running&apos;) to guarantee exactly-once
-            streak/scoring under concurrent polling, plus &quot;beats X%&quot;
-            runtime-percentile ranking via SQL window aggregates.
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/codingducks/problems.png`,
-              `${BASE_PATH}/codingducks/problem.png`,
-              `${BASE_PATH}/codingducks/machine-coding.png`,
-            ]}
-          />
-
-          <TypographyH3 className="my-4 mt-8">
-            System Design — simulation game
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            An interactive puzzle game where users assemble architectures from
-            16 typed building blocks on a React Flow canvas, then run them
-            through a pure-TypeScript, client-side traffic-simulation engine —
-            topological propagation, capacity/latency modeling, cache-warmth
-            EMA, SPOF detection, and DDoS &amp; chaos-fault injection. A 3-star
-            scoring model across reliability / performance / efficiency spans 10
-            progressively harder levels, guarded by a calibration suite
-            (node&nbsp;--test) that runs reference designs 15× through the real
-            engine to assert each level stays beatable-but-hard (optimal ⇒ 3★,
-            naive ⇒ ≤2★, broken ⇒ fail).
-          </p>
-          <SlideShow images={[`${BASE_PATH}/codingducks/sysdesign.png`]} />
-        </div>
-      );
-    },
-  },
-  {
-    id: "gumbalup",
-    category: "Real-time quiz platform",
-    title: "Gumbalup",
-    src: "/assets/projects-screenshots/gumbalup/landing.png",
-    screenshots: ["landing.png"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.tailwind,
-        PROJECT_SKILLS.motion,
-      ],
-      backend: [
-        PROJECT_SKILLS.trpc,
-        PROJECT_SKILLS.partykit,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.betterAuth,
-        PROJECT_SKILLS.cloudflare,
-        PROJECT_SKILLS.docker,
-      ],
-    },
-    live: "https://gumbalup.com/",
-    // Private repo (commercial product) — intentionally no public source link
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono text-2xl text-center">
-            A live, interactive quiz &amp; audience-engagement platform — built
-            solo, end-to-end.
-          </TypographyP>
-          <TypographyP className="font-mono ">
-            A production-grade, multi-tenant SaaS where organizations build
-            quizzes (manually or with AI) and run live, host-driven games —
-            players join from any device via room code / QR and compete on a
-            real-time, server-authoritative leaderboard. Also supports async
-            self-paced quizzes, team mode, anti-cheat monitoring, analytics,
-            billing, and white-labeling. ~43.5K lines of TypeScript across 257
-            files.
-          </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Server-authoritative game engine
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            A real-time game engine on PartyKit (Cloudflare Durable Objects +
-            WebSockets): a per-room in-memory state machine with an authoritative
-            1-second timer, speed-rank + streak scoring, deterministic
-            tie-broken leaderboards, team mode, and graceful reconnect/replay —
-            ~2,800 lines of game logic behind a typed message protocol (42
-            discriminated-union variants). Correctness is never sent to clients
-            during an active question, so players can&apos;t sniff answers or
-            game the clock.
-          </p>
-          <SlideShow images={[`${BASE_PATH}/gumbalup/dashboard.png`]} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Edge-to-DB security boundary &amp; AI authoring
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            The edge worker never connects to Postgres directly — it proxies all
-            persistence through a shared-secret internal HTTPS API on Next.js,
-            keeping the database unreachable from the public internet while the
-            worker stays stateless and edge-deployed. A fully type-safe layer (17
-            tRPC routers, 5 authorization tiers, Zod) backs it, with LLM-powered
-            quiz authoring (Groq / Llama) from topics or uploaded PDFs, quota-
-            metered per org, plus analytics with CSV/Excel/PDF export.
-          </p>
-          <SlideShow
-            images={[
-              `${BASE_PATH}/gumbalup/editor.png`,
-              `${BASE_PATH}/gumbalup/library.png`,
-            ]}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    id: "peakposts",
-    category: "AI social SaaS",
-    title: "PeakPosts",
-    src: "/assets/projects-screenshots/peakposts/landing.png",
-    screenshots: ["landing.png"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.tailwind,
-        PROJECT_SKILLS.motion,
-        PROJECT_SKILLS.nextIntl,
-      ],
-      backend: [
-        PROJECT_SKILLS.trpc,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.betterAuth,
-        PROJECT_SKILLS.aiSDK,
-        PROJECT_SKILLS.anthropic,
-        PROJECT_SKILLS.mistral,
-        PROJECT_SKILLS.cloudflare,
-      ],
-    },
-    // Private repo (commercial product) — intentionally no public source link
-    live: "https://peakposts.ai/",
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono text-2xl text-center">
-            A multi-tenant SaaS that turns QR-scanned diner reviews into
-            AI-generated, multi-language social posts — built solo, end-to-end.
-          </TypographyP>
-          <TypographyP className="font-mono ">
-            A production-grade, multi-tenant SaaS (~50K lines of TypeScript) on
-            the Next.js 15 App Router with end-to-end type safety from PostgreSQL
-            → Drizzle ORM → tRPC v11 → React, serving five distinct audiences —
-            diners, brand owners, counter staff, platform admins, and public
-            marketing — from a single application. 208 React components, 14 tRPC
-            routers, a normalized 19-table schema, and 5 AI subsystems across 5
-            languages.
-          </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Peakie — agentic AI analytics assistant
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            A hand-rolled tool-calling loop on the Vercel AI SDK (Mistral) over 10
-            brand-scoped tools — no agent framework — hardened against
-            small-model failure modes: spin-detection, hallucinated-tool-name
-            repair, per-tool and total over-fetch caps, exact-call de-duplication,
-            a token-budget history trimmer, and forced tool-choice on the final
-            step to guarantee termination within 6 steps. A terminal{" "}
-            <code>present_actions</code> tool forces structured, deep-linkable
-            answers, and every AI-produced link is re-validated against the
-            user&apos;s accessible scope so a hallucinated or out-of-scope
-            resource ID can never leak across tenant boundaries.
-          </p>
-          <SlideShow images={[`${BASE_PATH}/peakposts/dashboard.png`]} />
-
-          <TypographyH3 className="my-4 mt-8">
-            AI content-generation pipeline
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            An Anthropic Claude pipeline converts a star rating + photo + note
-            into platform-tailored social captions across 6 platforms and 5
-            languages using Zod-schema-enforced structured output, brand-voice
-            configuration, content moderation, and deterministic fallbacks so
-            generation never hard-fails. The diner&apos;s locale does double duty
-            — selecting both the UI catalog and the language the AI writes in
-            (e.g. picking Chinese yields a Xiaohongshu-style caption). A
-            retrieval-augmented help center pairs Mistral embeddings + cosine
-            similarity with a weighted-TF lexical fallback for API outages.
-          </p>
-          <SlideShow images={[`${BASE_PATH}/peakposts/posts.png`]} />
-
-          <TypographyH3 className="my-4 mt-8">
-            In-browser video editor &amp; multi-tenant security
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            Diners generate H.264 MP4 video and images entirely client-side via
-            the WebCodecs <code>VideoEncoder</code> + mp4-muxer and Canvas 2D,
-            inside a direct-manipulation post editor (pinch/rotate/drag gestures,
-            caption presets, CJK font subsetting) — zero server-side render cost.
-            The multi-step diner flow persists to IndexedDB via a custom Zustand
-            adapter, with client-side image compression and presigned
-            direct-to-R2 uploads. Underneath sits a five-tier tRPC authorization
-            layer with brand- vs. outlet-scoped grants, existence-masking
-            (<code>NOT_FOUND</code> over <code>FORBIDDEN</code>), and two-factor
-            counter auth — a hashed device token plus per-staff PIN with
-            brute-force lockout.
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Placeholder imagery — replace with real BeautyBoss renders.
           </p>
         </div>
       );
     },
   },
   {
-    id: "kanbi",
-    category: "Realtime project tracker",
-    title: "Kanbi",
-    src: "/assets/projects-screenshots/kanbi/landing.png",
-    screenshots: ["landing.png"],
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.reactNative,
-        PROJECT_SKILLS.expo,
-        PROJECT_SKILLS.tailwind,
-      ],
-      backend: [
-        PROJECT_SKILLS.trpc,
-        PROJECT_SKILLS.drizzle,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.betterAuth,
-        PROJECT_SKILLS.mcp,
-        PROJECT_SKILLS.cloudflare,
-        PROJECT_SKILLS.turborepo,
-        PROJECT_SKILLS.docker,
-      ],
-    },
-    live: "https://kanbi.nareshkhatri.dev",
-    github: "https://github.com/naresh-Khatri/kanbi",
+    id: "shineon",
+    category: "UGC Product Mockups",
+    title: "ShineOn",
+    src: `${BASE_PATH}/shineon/cover.png`,
+    screenshots: [
+      `${BASE_PATH}/shineon/01.png`,
+      `${BASE_PATH}/shineon/02.png`,
+    ],
+    tools: [
+      PROJECT_SKILLS.aftereffects,
+      PROJECT_SKILLS.premiere,
+      PROJECT_SKILLS.element3d,
+      PROJECT_SKILLS.mocha,
+      PROJECT_SKILLS.blender,
+    ],
+    deliverables: [
+      "3D product videos",
+      "Customer design mockups",
+      "Full video delivery workflow",
+    ],
+    live: "https://www.shineon.com",
     get content() {
       return (
         <div>
           <TypographyP className="font-mono text-2xl text-center">
-            A keyboard-first, realtime Kanban tracker — &quot;Linear, but small
-            enough to own.&quot;
+            3D product mockups for a UGC video store.
           </TypographyP>
-          <TypographyP className="font-mono ">
-            A full-stack TypeScript monorepo (pnpm + Turborepo) spanning three
-            deployable surfaces — a Next.js 15 web app, an OAuth-secured MCP
-            server for AI agents, and an Expo mobile companion — with end-to-end
-            type safety from Postgres → Drizzle → tRPC v11 → React, so a schema
-            change ripples to compile errors in the UI with zero codegen. ~21K
-            lines of TypeScript, 16 domain tRPC routers, a 25-table schema, and 8
-            scoped MCP agent tools.
+          <TypographyP className="font-mono">
+            At ShineOn, I create 3D product visualizations and VFX-based video
+            mockups for the company&apos;s UGC video store. The work covers the
+            full path from applying a customer&apos;s design to a product model
+            through rendering and video delivery.
           </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
+          <ProjectsLinks live={this.live} />
 
           <TypographyH3 className="my-4 mt-8">
-            Realtime collaboration &amp; fractional ordering
+            Design application &amp; rendering
           </TypographyH3>
           <p className="font-mono mb-2">
-            Drag-and-drop boards with optimistic UI and live multi-user updates,
-            powered by tRPC subscriptions over Server-Sent Events. An in-process
-            event bus broadcasts <code>boardId</code>-scoped invalidation signals
-            that carry <em>no payload</em> — clients simply refetch through React
-            Query, keeping the realtime layer cheap and consistent. Mutations
-            snapshot-and-rollback (<code>onMutate</code>/<code>onError</code>/
-            <code>onSettled</code>) and deletes are undoable (6-second deferred
-            server call + toast). Columns and cards order via fractional indexing
-            — new items insert at the midpoint between neighbors, so a reorder
-            touches one row instead of re-sequencing the whole list, with collapse
-            detection and rebalancing.
+            Customer artwork is mapped onto product models, lit, and rendered as
+            clean mockup frames. Element 3D and Blender cover the 3D work, while
+            Mocha handles tracking where footage needs to be matched.
           </p>
           <SlideShow
             images={[
-              `${BASE_PATH}/kanbi/board.png`,
-              `${BASE_PATH}/kanbi/dashboard.png`,
+              `${BASE_PATH}/shineon/01.png`,
+              `${BASE_PATH}/shineon/02.png`,
             ]}
           />
 
-          <TypographyH3 className="my-4 mt-8">
-            One auth model, three clients &amp; an MCP server for AI agents
-          </TypographyH3>
+          <TypographyH3 className="my-4 mt-8">Video delivery</TypographyH3>
           <p className="font-mono mb-2">
-            A layered, type-safe authorization model encodes access control at the
-            procedure level — <code>protectedProcedure</code> →{" "}
-            <code>projectProcedure</code> → <code>boardProcedure</code> →{" "}
-            <code>publicBoardProcedure</code> (share token, no auth) — with role
-            checks gating every mutation. The same model is reused across three
-            entry points so ACLs can&apos;t drift: browser cookies, hashed
-            per-device bearer tokens for mobile (SHA-256 at rest), and OAuth-2.1
-            JWTs for AI agents. The spec-compliant MCP server (Streamable HTTP)
-            exposes 8 read/write tools through a full OAuth 2.1 flow — dynamic
-            client registration, a consent screen, JWKS-verified JWTs — each tool a
-            thin wrapper over the existing tRPC procedures via a JWT→session
-            bridge, so permissions, validation, ordering, and the realtime bus are
-            all reused; agent-authored HTML is server-side sanitized.
+            Final assets are assembled and delivered in After Effects and
+            Premiere Pro, with the delivery workflow managed end to end. I also
+            support the team with additional motion graphics tasks when needed.
           </p>
-          <SlideShow images={[`${BASE_PATH}/kanbi/profile.png`]} />
-
-          <TypographyH3 className="my-4 mt-8">
-            Native Android dock dashboard &amp; AI task drafting
-          </TypographyH3>
-          <p className="font-mono mb-2">
-            A custom native Android Expo module written in Kotlin implements
-            Android&apos;s <code>DreamService</code> (the system daydream): dock
-            the phone and the OS launches a React Native root view rendering the
-            active task and a Pomodoro timer — a genuine focus dashboard, with{" "}
-            <code>showWhenLocked</code>, screen-on, and keyguard dismissal handled
-            natively. Devices pair by QR with secure token storage
-            (<code>expo-secure-store</code>). On the web, paste a raw client
-            message and a Groq-backed LLM extracts structured, actionable issues
-            (title, description, label, priority); rich-text descriptions use Tiptap
-            with <code>@mention</code> and <code>#ticket</code> cross-reference
-            extensions.
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Placeholder imagery — replace with real ShineOn mockups.
           </p>
-          <SlideShow images={[`${BASE_PATH}/kanbi/ai-draft.png`]} />
         </div>
       );
     },
   },
   {
-    id: "portfolio",
-    category: "Portfolio",
-    title: "My Portfolio",
-    src: "/assets/projects-screenshots/portfolio/landing.png",
-    screenshots: ["1.png"],
-    live: "https://nareshkhatri.dev",
-    github: "https://github.com/Naresh-Khatri/Portfolio",
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.tailwind,
-        PROJECT_SKILLS.motion,
-      ],
-      backend: [],
-    },
+    id: "designmusketeer",
+    category: "Commercial 3D & Motion",
+    title: "Design Musketeer",
+    src: `${BASE_PATH}/designmusketeer/cover.png`,
+    screenshots: [
+      `${BASE_PATH}/designmusketeer/01.png`,
+      `${BASE_PATH}/designmusketeer/02.png`,
+    ],
+    tools: [
+      PROJECT_SKILLS.aftereffects,
+      PROJECT_SKILLS.blender,
+      PROJECT_SKILLS.sketchup,
+      PROJECT_SKILLS.lumion,
+      PROJECT_SKILLS.unreal,
+    ],
+    deliverables: [
+      "Commercial visualization",
+      "3D environments",
+      "Motion graphics",
+    ],
+    live: "https://www.designmusketeer.com",
     get content() {
       return (
         <div>
-          <TypographyP className="font-mono ">
-            Welcome to my digital playground, where creativity meets code in the
-            dopest way possible.
+          <TypographyP className="font-mono text-2xl text-center">
+            Supervising commercial visualization and motion production.
           </TypographyP>
-          <ProjectsLinks live={this.live} repo={this.github} />
+          <TypographyP className="font-mono">
+            At Design Musketeer I lead design projects for commercial and
+            product visualization, managing 3D visualization and motion graphics
+            production across a range of client briefs while supervising the
+            team.
+          </TypographyP>
+          <ProjectsLinks live={this.live} />
+
           <TypographyH3 className="my-4 mt-8">
-            Beautiful 3D Objects{" "}
+            Visualization pipeline
           </TypographyH3>
           <p className="font-mono mb-2">
-            Did you see that 3D keyboard modal? Yeah! I made that. That
-            interactive keyboard is being rendered in 3D on a webpage 🤯, and
-            pressing each keycap reveals a skill in a goofy way. It&apos;s like
-            typing, but make it art.
+            Projects move from SketchUp and Blender modeling into Lumion and
+            Unreal Engine 5 for environment and real-time visualization work.
+            After Effects is used for motion graphics and final finishing.
           </p>
           <SlideShow
             images={[
-              `${BASE_PATH}/portfolio/landing.png`,
-              `${BASE_PATH}/portfolio/skills.png`,
+              `${BASE_PATH}/designmusketeer/01.png`,
+              `${BASE_PATH}/designmusketeer/02.png`,
             ]}
           />
-          <TypographyH3 className="my-4 ">Space Theme</TypographyH3>
-          <p className="font-mono mb-2">
-            Dark background + floating particles = out-of-this-world cool.
-          </p>
-          <SlideShow images={[`${BASE_PATH}/portfolio/navbar.png`]} />
-          <TypographyH3 className="my-4 mt-8">Projects</TypographyH3>
 
+          <TypographyH3 className="my-4 mt-8">
+            Supervision &amp; delivery
+          </TypographyH3>
           <p className="font-mono mb-2">
-            My top personal and freelance projects — no filler, all killer.
+            As supervisor I keep production aligned with the client brief,
+            review work in progress, and coordinate delivery across concurrent
+            commercial projects.
+          </p>
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Placeholder imagery — replace with real commercial visualization
+            work.
+          </p>
+        </div>
+      );
+    },
+  },
+  {
+    id: "film-vfx",
+    category: "Compositing & Roto",
+    title: "Film & OTT VFX",
+    src: `${BASE_PATH}/film-vfx/cover.png`,
+    screenshots: [
+      `${BASE_PATH}/film-vfx/01.png`,
+      `${BASE_PATH}/film-vfx/02.png`,
+    ],
+    tools: [
+      PROJECT_SKILLS.aftereffects,
+      PROJECT_SKILLS.silhouette,
+      PROJECT_SKILLS.mocha,
+      PROJECT_SKILLS.photoshop,
+      PROJECT_SKILLS.rotoscoping,
+    ],
+    deliverables: ["Rotoscoping", "Chroma keying", "Clean plating"],
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center">
+            Production VFX prep for film and streaming projects.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            At MVRK Studios and Studio Tik Tok I worked as a VFX artist on film
+            and OTT projects, producing rotoscoping, clean plating, keying, and
+            compositing support for senior compositors.
+          </TypographyP>
+          <ProjectsLinks video={this.video} />
+
+          <TypographyH3 className="my-4 mt-8">Roto &amp; clean plating</TypographyH3>
+          <p className="font-mono mb-2">
+            Frame-accurate rotoscoping and clean plating in SilhouetteFX, with
+            planar tracking in Mocha Pro and paint work in Photoshop. The goal is
+            clean, predictable plates that senior compositors can build on.
           </p>
           <SlideShow
             images={[
-              `${BASE_PATH}/portfolio/projects.png`,
-              `${BASE_PATH}/portfolio/project.png`,
+              `${BASE_PATH}/film-vfx/01.png`,
+              `${BASE_PATH}/film-vfx/02.png`,
             ]}
           />
-          <p className="font-mono mb-2 mt-8 text-center">
-            This site&apos;s not just a portfolio — it&apos;s a whole vibe.
+
+          <TypographyH3 className="my-4 mt-8">Keying &amp; compositing</TypographyH3>
+          <p className="font-mono mb-2">
+            Chroma keying and compositing were handled in After Effects for
+            shots delivered to streaming productions, including work contributed
+            to Apple TV and Amazon Prime projects.
+          </p>
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Selected work — titles are under NDA. Placeholder imagery shown;
+            replace with approved frames.
+          </p>
+        </div>
+      );
+    },
+  },
+  {
+    id: "broadcast-motion",
+    category: "Broadcast & Social Motion",
+    title: "Broadcast & Social",
+    src: `${BASE_PATH}/broadcast-motion/cover.png`,
+    screenshots: [
+      `${BASE_PATH}/broadcast-motion/01.png`,
+      `${BASE_PATH}/broadcast-motion/02.png`,
+    ],
+    tools: [
+      PROJECT_SKILLS.aftereffects,
+      PROJECT_SKILLS.premiere,
+      PROJECT_SKILLS.photoshop,
+      PROJECT_SKILLS.illustrator,
+      PROJECT_SKILLS.redgiant,
+    ],
+    deliverables: [
+      "Social media campaigns",
+      "Newscast graphics",
+      "Editing & color correction",
+    ],
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center">
+            Motion graphics for brands, broadcasts, and social campaigns.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            Across Chilli Communications and Tomato Web I produced social media
+            branding content, newscast visuals, and 3D event exhibition stalls
+            for multiple client companies.
+          </TypographyP>
+
+          <TypographyH3 className="my-4 mt-8">Social &amp; brand content</TypographyH3>
+          <p className="font-mono mb-2">
+            Social campaigns were designed and animated in After Effects and
+            Illustrator, with Red Giant used for finishing and look development.
+            Designs were adapted across formats for each client.
+          </p>
+          <SlideShow
+            images={[
+              `${BASE_PATH}/broadcast-motion/01.png`,
+              `${BASE_PATH}/broadcast-motion/02.png`,
+            ]}
+          />
+
+          <TypographyH3 className="my-4 mt-8">Editing &amp; color</TypographyH3>
+          <p className="font-mono mb-2">
+            Footage for newscast and social videos was edited, color corrected,
+            and finished in Premiere Pro and After Effects, with supporting
+            retouching in Photoshop.
+          </p>
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Placeholder imagery — replace with real campaign stills.
+          </p>
+        </div>
+      );
+    },
+  },
+  {
+    id: "showreel",
+    category: "Showreel",
+    title: "Selected Work",
+    src: `${BASE_PATH}/showreel/cover.png`,
+    screenshots: [`${BASE_PATH}/showreel/01.png`],
+    tools: [
+      PROJECT_SKILLS.aftereffects,
+      PROJECT_SKILLS.blender,
+      PROJECT_SKILLS.unreal,
+      PROJECT_SKILLS.element3d,
+    ],
+    deliverables: ["VFX reel", "3D product work", "Motion graphics"],
+    video: "",
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center">
+            A single reel of selected VFX, motion, and 3D product work.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            This card is ready for a showreel embed. Add a YouTube or Vimeo
+            link in <code>src/data/projects.tsx</code> to replace this
+            placeholder with the real reel.
+          </TypographyP>
+          <ProjectsLinks video={this.video} />
+          <SlideShow images={[`${BASE_PATH}/showreel/01.png`]} />
+          <p className="mt-6 text-xs italic text-muted-foreground">
+            Showreel link and final frames still to be supplied.
           </p>
         </div>
       );

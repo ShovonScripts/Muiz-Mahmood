@@ -5,10 +5,12 @@ import { cn } from "@/lib/utils";
 import SectionWrapper from "../ui/section-wrapper";
 import { motion } from "motion/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowUpRight, MapPin } from "lucide-react";
 
 const ExperienceSection = () => {
   return (
     <SectionWrapper
+      id="experience"
       className="flex flex-col items-center justify-center min-h-[120vh] py-20"
     >
       <div className="w-full max-w-4xl px-4 md:px-8 mx-auto">
@@ -66,8 +68,31 @@ const ExperienceCard = ({
                 {experience.title}
               </CardTitle>
               <div className="text-base font-medium text-muted-foreground">
-                {experience.company}
+                {experience.url ? (
+                  <a
+                    href={experience.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
+                  >
+                    {experience.company}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                ) : (
+                  experience.company
+                )}
+                {experience.type && (
+                  <span className="ml-2 rounded-full border border-border px-2 py-0.5 text-[11px] font-normal">
+                    {experience.type}
+                  </span>
+                )}
               </div>
+              {experience.location && (
+                <div className="flex items-center gap-1 text-xs text-muted-foreground/80">
+                  <MapPin className="h-3 w-3" />
+                  {experience.location}
+                </div>
+              )}
             </div>
             <ol className="relative flex flex-col gap-2.5 md:items-end">
               {experience.periods.length > 1 && (
@@ -96,7 +121,7 @@ const ExperienceCard = ({
                         )}
                       />
                     </span>
-                    {p.start} - {p.end}
+                    {p.start === p.end ? p.start : `${p.start} - ${p.end}`}
                   </li>
                 );
               })}
@@ -110,6 +135,7 @@ const ExperienceCard = ({
             ))}
           </ul>
 
+          {experience.skills.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {experience.skills.map((skillName) => {
               const skill = SKILLS[skillName as SkillNames];
@@ -130,6 +156,7 @@ const ExperienceCard = ({
               );
             })}
           </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>

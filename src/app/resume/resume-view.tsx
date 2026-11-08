@@ -1,14 +1,15 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Download, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import ResumeDoodle from "./resume-doodle";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import ResumeViewer from "./resume-viewer";
 
-// Drop the compiled PDF here: frontend/public/Naresh_Khatri_Resume.pdf
-const RESUME_PATH = "/Naresh_Khatri_Resume.pdf";
+// Drop the compiled PDF here: public/Muiz_Mahmood_Resume.pdf
+const RESUME_PATH = "/Muiz_Mahmood_Resume.pdf";
 
 export default function ResumeView() {
   return (
@@ -36,20 +37,18 @@ export default function ResumeView() {
             <ArrowLeft className="h-4 w-4" />
             Back to portfolio
           </Link>
-          <Button>
-            <a
-              href={RESUME_PATH}
-              download
-              className="flex gap-2 text-sm transition-colors hover:text-foreground"
-            >
-              <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
-              Download PDF
-            </a>
-          </Button>
+          <a
+            href={RESUME_PATH}
+            download
+            className={cn(buttonVariants(), "group flex gap-2")}
+          >
+            <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+            Download PDF
+          </a>
         </motion.div>
       </div>
 
-      {/* PDF viewer — centered on mobile (short A4 card), top-aligned on desktop (tall) */}
+      {/* PDF viewer â€” centered on mobile (short A4 card), top-aligned on desktop (tall) */}
       <div className="mx-auto flex w-full max-w-4xl flex-1 items-center justify-center px-2 pb-6 md:items-start md:px-4 md:pb-24">
         {/* opacity-only animation: a transformed ancestor would trap the fixed doodle FAB */}
         <motion.div
@@ -58,9 +57,9 @@ export default function ResumeView() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="aspect-[210/297] w-full overflow-hidden rounded-2xl bg-white shadow-xl"
         >
-          <ResumeDoodle
+          <ResumeViewer
             src={`${RESUME_PATH}#toolbar=0&navpanes=0&view=FitH`}
-            title="Naresh Khatri — Résumé"
+            title="Muiz Mahmood â€” RÃ©sumÃ©"
           />
         </motion.div>
       </div>

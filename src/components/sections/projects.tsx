@@ -20,7 +20,11 @@ import ScrollingPreview from "../scrolling-preview";
 const ProjectsSection = () => {
   return (
     <SectionWrapper id="projects" className="max-w-7xl mx-auto md:min-h-[130vh] px-4">
-      <SectionHeader id="projects" title="Projects" />
+      <SectionHeader
+        id="projects"
+        title="Selected Work"
+        desc="VFX, motion graphics, and 3D product visualization."
+      />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
@@ -79,15 +83,6 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 </span>
               </div>
               <div className="shrink-0 flex items-center gap-4">
-                {project.github && project.github !== "#" && (
-                  <Link
-                    href={project.github}
-                    target="_blank"
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
-                  >
-                    Source
-                  </Link>
-                )}
                 {project.live && project.live !== "#" && (
                   <Link href={project.live} target="_blank">
                     <button className="group flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-4 py-1.5 rounded-full hover:bg-primary/80 transition-colors">
@@ -110,20 +105,29 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="flex flex-col md:flex-row gap-6 md:gap-10 mb-10"
               >
-                {project.skills.frontend?.length > 0 && (
+                {project.tools?.length > 0 && (
                   <div className="flex flex-col items-center md:items-start gap-2">
                     <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                      Frontend
+                      Software
                     </span>
-                    <FloatingDock items={project.skills.frontend} />
+                    <FloatingDock items={project.tools} />
                   </div>
                 )}
-                {project.skills.backend?.length > 0 && (
+                {project.deliverables?.length > 0 && (
                   <div className="flex flex-col items-center md:items-start gap-2">
                     <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                      Backend
+                      Deliverables
                     </span>
-                    <FloatingDock items={project.skills.backend} />
+                    <div className="flex max-w-md flex-wrap justify-center gap-2 md:justify-start">
+                      {project.deliverables.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-border bg-secondary/30 px-3 py-1 text-xs text-muted-foreground"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
               </motion.div>

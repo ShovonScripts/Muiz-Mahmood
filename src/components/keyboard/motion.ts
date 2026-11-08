@@ -4,10 +4,18 @@ import { Euler, Quaternion } from "three";
 import type { ChibiSceneApi, Vec3 } from "@chibi3d/runtime";
 import type { KeyboardScene } from "./scene";
 
-export type KeyboardSection = "hero" | "skills" | "projects" | "contact";
+export type KeyboardSection =
+  | "hero"
+  | "skills"
+  | "experience"
+  | "education"
+  | "projects"
+  | "contact";
 const SCROLL_SECTIONS = [
   { id: "skills", previous: "hero", threshold: 0.5 },
-  { id: "projects", previous: "skills", threshold: 0.7 },
+  { id: "experience", previous: "skills", threshold: 0.5 },
+  { id: "education", previous: "experience", threshold: 0.5 },
+  { id: "projects", previous: "education", threshold: 0.7 },
   { id: "contact", previous: "projects", threshold: 0.3 },
 ] as const;
 
@@ -49,7 +57,6 @@ export function createKeyboardMotion(
   const applyKey = (index: number) => {
     setTransform(scene.keys[index].motionId, { position: [0, keyOffsets[index].y + keyRevealOffsets[index].y, 0] });
   };
-  const catFrame = { value: 0 };
   const sectionTweens: gsap.core.Tween[] = [];
   const loops: gsap.core.Tween[] = [];
   const revealTweens: gsap.core.Tween[] = [];
@@ -117,24 +124,8 @@ export function createKeyboardMotion(
         onUpdate: applyPose,
       }));
     }
-    // Legacy manageAnimations waits for the cat, then another 600ms for keys.
-    const catDelay = next === "projects" ? 0.3 : 0.2;
-    pending.push(gsap.delayedCall(catDelay, () => {
-      if (disposed || section !== next) return;
-      api.setNodeVisible(scene.catId, next === "projects");
-      catFrame.value = 0;
-      let displayedFrame = -1;
-      const showFrame = () => {
-        const frame = Math.floor(catFrame.value) % 2;
-        if (frame === displayedFrame) return;
-        displayedFrame = frame;
-        scene.frameIds.forEach((id, index) => api.setNodeVisible(id, next === "projects" && index === frame));
-      };
-      showFrame();
-      if (next === "projects") loops.push(gsap.to(catFrame, {
-        value: 2, duration: 0.2, repeat: -1, ease: "none", onUpdate: showFrame,
-      }));
-    }));
+    // Delay key animation slightly so the board settles before the caps move.
+    const catDelay = 0.2;
     pending.push(gsap.delayedCall(catDelay + 0.6, () => {
       if (disposed || section !== next) return;
       kill(keyTweens);

@@ -97,7 +97,7 @@ function ElasticCursor() {
   const pathname = usePathname();
   const isBlogPost = pathname.startsWith("/blogs/") && pathname !== "/blogs";
 
-  const { loadingPercent, isLoading } = usePreloader();
+  const { isLoading } = usePreloader();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const jellyRef = useRef<HTMLDivElement>(null);
@@ -354,14 +354,6 @@ function ElasticCursor() {
     };
   }, [isMobile, isBlogPost]);
 
-  // Preloader uses the blob as a loading bar.
-  useEffect(() => {
-    if (!jellyRef.current) return;
-    jellyRef.current.style.height = "2rem";
-    jellyRef.current.style.borderRadius = "1rem";
-    jellyRef.current.style.width = loadingPercent * 2 + "vw";
-  }, [loadingPercent]);
-
   useTicker(render, isLoading || !cursorMoved || isMobile || isBlogPost);
   if (isMobile || isBlogPost) return null;
 
@@ -379,6 +371,7 @@ function ElasticCursor() {
           borderRadius: CURSOR_DIAMETER / 2,
           boxSizing: "border-box",
           zIndex: 100,
+          opacity: 0,
           backdropFilter: "invert(100%)",
         }}
       ></div>

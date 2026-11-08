@@ -1,44 +1,38 @@
 const config = {
-  title: "Naresh Khatri | Full-Stack Developer",
+  title: "Muiz Mahmood | VFX & 3D Product Visualization",
   description: {
-    long: "Explore the portfolio of Naresh, a full-stack developer and creative technologist specializing in interactive web experiences, 3D animations, and innovative projects. Discover my latest work, including Coding Ducks, The Booking Desk, Ghostchat, and more. Let's build something amazing together!",
+    long: "Portfolio of Muiz Mahmood, a VFX artist and 3D product visualizer with 6+ years of experience in compositing, motion tracking, rotoscoping, and photoreal product renders for commercials, e-commerce, film, and OTT projects.",
     short:
-      "Discover the portfolio of Naresh, a full-stack developer creating interactive web experiences and innovative projects.",
+      "VFX artist and 3D product visualizer specializing in compositing, motion tracking, and photoreal product renders.",
   },
   keywords: [
-    "Naresh",
+    "Muiz Mahmood",
+    "VFX artist",
+    "3D product visualization",
+    "product rendering",
+    "motion graphics",
+    "compositing",
+    "rotoscoping",
+    "motion tracking",
+    "clean plating",
+    "chroma keying",
+    "After Effects",
+    "Blender",
+    "Unreal Engine",
+    "commercial VFX",
+    "UGC product videos",
     "portfolio",
-    "full-stack developer",
-    "creative technologist",
-    "web development",
-    "3D animations",
-    "interactive websites",
-    "Coding Ducks",
-    "The Booking Desk",
-    "Ghostchat",
-    "web design",
-    "GSAP",
-    "React",
-    "Next.js",
-    "Framer Motion",
   ],
-  author: "Naresh Khatri",
-  email: "naresh.khatri2345@gmail.com",
-  site: "https://nareshkhatri.dev",
-
-  // for github stars button
-  githubUsername: "naresh-khatri",
-  githubRepo: "3d-portfolio",
+  author: "Muiz Mahmood",
+  email: "muizmahmood.o@gmail.com",
+  location: "Dhaka, Bangladesh",
+  site: "https://muizmahmood.com",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
   },
   social: {
-    twitter: "https://x.com/nothotchaddi",
-    linkedin: "https://www.linkedin.com/in/naresh-khatri/",
-    instagram: "https://www.instagram.com/hotchaddi",
-    facebook: "https://www.facebook.com/HotChaddi/",
-    github: "https://github.com/Naresh-Khatri",
+    linkedin: "https://www.linkedin.com/in/muizmahmood",
   },
 };
 export { config };

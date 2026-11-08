@@ -1,27 +1,21 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import styles from "./style.module.scss";
 import { opacity, background } from "./anim";
 import Nav from "./nav";
 import { cn } from "@/lib/utils";
-import FunnyThemeToggle from "../theme/funny-theme-toggle";
+import ThemeToggle from "../theme/theme-toggle";
 import { Button } from "../ui/button";
 import { config } from "@/data/config";
-import OnlineUsers from "../realtime/online-users";
-import { GameTrigger } from "../game/game-trigger";
 
 interface HeaderProps {
   loader?: boolean;
-  // server-rendered slot; client header can't fetch it itself without a mount-time shift
-  githubStars?: React.ReactNode;
 }
 
-const Header = ({ loader, githubStars }: HeaderProps) => {
+const Header = ({ loader }: HeaderProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const isHome = usePathname() === "/";
   return (
     <motion.header
       className={cn(
@@ -58,14 +52,7 @@ const Header = ({ loader, githubStars }: HeaderProps) => {
           </Button>
         </Link>
 
-        <FunnyThemeToggle className="w-6 h-6 mr-4 hidden md:flex" />
-        {isHome && process.env.NEXT_PUBLIC_WS_URL && (
-          <div className="flex items-center">
-            <GameTrigger className="mr-3" />
-            <OnlineUsers />
-          </div>
-        )}
-        {githubStars}
+        <ThemeToggle className="w-6 h-6 mr-4 hidden md:flex" />
         <Button
           variant={"ghost"}
           onClick={() => setIsActive(!isActive)}

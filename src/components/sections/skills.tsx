@@ -34,7 +34,7 @@ const SkillsSection = () => {
       <SectionHeader
         id="skills"
         title="Tech Stack"
-        desc={showGrid ? "Tools I build with" : "(hint: press a key)"}
+        desc={showGrid ? "Tools I build with" : "(hint: tap or press a key)"}
         className={showGrid ? "static mb-14" : undefined}
       />
       <ul className={showGrid ? "mx-auto grid w-full max-w-5xl grid-cols-2 gap-3 px-4 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5" : "sr-only"}>

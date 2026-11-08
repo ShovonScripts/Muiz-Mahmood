@@ -3,41 +3,40 @@
 import { useInView } from "motion/react";
 import React, { useRef } from "react";
 import { Button } from "../ui/button";
-import { SiGithub, SiInstagram, SiLinkedin, SiX } from "react-icons/si";
+import { SiLinkedin } from "react-icons/si";
+import { Mail } from "lucide-react";
 import { config } from "@/data/config";
 import Link from "next/link";
 
 const BUTTONS = [
   {
-    name: "Github",
-    href: config.social.github,
-    icon: <SiGithub size={"24"} color={"#fff"} />,
-  },
-  {
     name: "LinkedIn",
     href: config.social.linkedin,
-    icon: <SiLinkedin size={"24"} color={"#fff"} />,
+    external: true,
+    icon: <SiLinkedin size={24} />,
   },
   {
-    name: "Twitter",
-    href: config.social.twitter,
-    icon: <SiX size={"24"} color={"#fff"} />,
+    name: "Email",
+    href: `mailto:${config.email}`,
+    external: false,
+    icon: <Mail size={24} />,
   },
-  {
-    name: "Instagram",
-    href: config.social.instagram,
-    icon: <SiInstagram size={"24"} color={"#fff"} />,
-  },
-];
+].filter((button) => button.href);
 
 const SocialMediaButtons = () => {
   const ref = useRef<HTMLDivElement>(null);
   const show = useInView(ref, { once: true });
   return (
-    <div ref={ref} className="z-10">
+    <div ref={ref} className="z-10 flex items-center">
       {show &&
         BUTTONS.map((button) => (
-          <Link href={button.href} key={button.name} target="_blank">
+          <Link
+            href={button.href}
+            key={button.name}
+            target={button.external ? "_blank" : undefined}
+            rel={button.external ? "noopener noreferrer" : undefined}
+            aria-label={button.name}
+          >
             <Button variant={"ghost"}>{button.icon}</Button>
           </Link>
         ))}

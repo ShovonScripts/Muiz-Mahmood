@@ -5,7 +5,6 @@ import { config } from "@/data/config";
 
 import Script from "next/script";
 import SiteFrame from "@/components/site-frame";
-import GitHubStars from "@/components/header/github-stars";
 import { Providers } from "@/components/providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { UMAMI_SRC } from "@/lib/umami";
@@ -26,7 +25,6 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
-  // pins every relative/OG url to the .dev origin so nothing canonicalises back to .site
   metadataBase: new URL(config.site),
   alternates: { canonical: "./" },
   title: config.title,
@@ -40,9 +38,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: config.ogImg,
-        width: 800,
-        height: 600,
-        alt: "Portfolio preview",
+        width: 1200,
+        height: 630,
+        alt: "Muiz Mahmood — VFX & 3D Product Visualization",
       },
     ],
     type: "website",
@@ -75,7 +73,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {process.env.UMAMI_SITE_ID && (
+        {process.env.UMAMI_SITE_ID && UMAMI_SRC && (
           <Script
             defer
             src={UMAMI_SRC}
@@ -85,9 +83,7 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <SiteFrame githubStars={<GitHubStars className="mr-4" />}>
-            {children}
-          </SiteFrame>
+          <SiteFrame>{children}</SiteFrame>
         </Providers>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />

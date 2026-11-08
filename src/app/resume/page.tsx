@@ -1,9 +1,9 @@
 import ResumeView from "./resume-view";
 
 export const metadata = {
-  title: "Résumé | Naresh Khatri",
+  title: "Résumé | Muiz Mahmood",
   description:
-    "Résumé of Naresh Khatri — Senior Full-Stack Engineer. View online or download the PDF.",
+    "Résumé of Muiz Mahmood — VFX Artist & 3D Product Visualization Specialist. View online or download the PDF.",
 };
 
 export default function ResumePage() {
