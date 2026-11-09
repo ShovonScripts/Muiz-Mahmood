@@ -29,7 +29,7 @@
 - **Easter Eggs** — Open DevTools and follow the clues 🐱
 - **Light & Dark Mode** — Full theme support with cheeky disclaimer toasts
 - **Responsive** — Works across all screen sizes
-- **Contact Form** — Email delivery via Resend
+- **Direct Contact** — Email, LinkedIn, and location details with one-click copy
 - **Analytics** _(optional)_ — Umami analytics integration
 
 ## 🛠️ Tech Stack
@@ -40,7 +40,6 @@
 | **Styling** | Tailwind CSS, Shadcn UI, Aceternity UI |
 | **Animation** | GSAP, Framer Motion |
 | **3D** | @chibi3d/runtime, Three.js, React Three Fiber |
-| **Email** | Resend |
 | **Misc** | Lenis (smooth scroll), Zod, next-themes |
 
 ---
@@ -77,7 +76,6 @@
 
     | Variable | Required | Description |
     |---|---|---|
-    | `RESEND_API_KEY` | Yes | API key from [Resend](https://resend.com) for the contact form |
     | `NEXT_PUBLIC_WS_URL` | No | WebSocket server URL for realtime features (cursors, chat, presence) |
     | `UMAMI_DOMAIN` | No | Umami analytics script URL |
     | `UMAMI_SITE_ID` | No | Umami website ID |
