@@ -115,6 +115,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(function(){try{var theme=localStorage.getItem("theme")||"dark";if(theme==="system"){theme=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var root=document.documentElement;root.classList.remove("light","dark");root.classList.add(theme);root.style.colorScheme=theme}catch{document.documentElement.classList.add("dark")}})();`}
+        </Script>
         {process.env.UMAMI_SITE_ID && UMAMI_SRC && (
           <Script
             defer
@@ -128,6 +131,7 @@ export default function RootLayout({
         <Providers>
           <SiteFrame>{children}</SiteFrame>
         </Providers>
+        <JsonLd data={homeGraph} />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         )}
