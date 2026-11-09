@@ -161,6 +161,10 @@ const projects: Project[] = [
               `${BASE_PATH}/beautyboss/01.png`,
               `${BASE_PATH}/beautyboss/02.png`,
             ]}
+            alt={[
+              `${this.title} — cosmetic product modeling and rendering`,
+              `${this.title} — branded storefront visual`,
+            ]}
           />
 
           <TypographyH3 className="my-4 mt-8">Lighting &amp; delivery</TypographyH3>
@@ -226,6 +230,10 @@ const projects: Project[] = [
               `${BASE_PATH}/shineon/01.png`,
               `${BASE_PATH}/shineon/02.png`,
             ]}
+            alt={[
+              `${this.title} — customer design applied to product mockup`,
+              `${this.title} — video mockup frame`,
+            ]}
           />
 
           <TypographyH3 className="my-4 mt-8">Video delivery</TypographyH3>
@@ -290,6 +298,10 @@ const projects: Project[] = [
               `${BASE_PATH}/designmusketeer/01.png`,
               `${BASE_PATH}/designmusketeer/02.png`,
             ]}
+            alt={[
+              `${this.title} — 3D environment in Lumion`,
+              `${this.title} — Unreal Engine real-time visualization`,
+            ]}
           />
 
           <TypographyH3 className="my-4 mt-8">
@@ -348,6 +360,10 @@ const projects: Project[] = [
             images={[
               `${BASE_PATH}/film-vfx/01.png`,
               `${BASE_PATH}/film-vfx/02.png`,
+            ]}
+            alt={[
+              `${this.title} — SilhouetteFX rotoscoping work`,
+              `${this.title} — Mocha Pro planar tracking`,
             ]}
           />
 
@@ -409,6 +425,10 @@ const projects: Project[] = [
               `${BASE_PATH}/broadcast-motion/01.png`,
               `${BASE_PATH}/broadcast-motion/02.png`,
             ]}
+            alt={[
+              `${this.title} — After Effects social campaign`,
+              `${this.title} — newscast graphics frame`,
+            ]}
           />
 
           <TypographyH3 className="my-4 mt-8">Editing &amp; color</TypographyH3>
@@ -450,7 +470,10 @@ const projects: Project[] = [
             placeholder with the real reel.
           </TypographyP>
           <ProjectsLinks video={this.video} />
-          <SlideShow images={[`${BASE_PATH}/showreel/01.png`]} />
+          <SlideShow
+            images={[`${BASE_PATH}/showreel/01.png`]}
+            alt={`${this.title} — VFX and motion showreel frame`}
+          />
           <p className="mt-6 text-xs italic text-muted-foreground">
             Showreel link and final frames still to be supplied.
           </p>

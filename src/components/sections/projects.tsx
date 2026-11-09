@@ -53,7 +53,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 the wallpaper is an optional /assets/backgrounds/<id>.jpg. */}
             <ScrollingPreview
               src={project.src}
-              alt={project.title}
+              alt={`${project.title} — ${project.category}`}
               bg={`/assets/backgrounds/${project.id}.jpg`}
               isHovered={isHovered}
             />

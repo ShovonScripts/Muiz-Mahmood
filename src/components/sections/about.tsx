@@ -31,7 +31,7 @@ const AboutSection = () => {
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-secondary/30 shadow-xl">
               <Image
                 src="/assets/muiz.png"
-                alt="Muiz Mahmood"
+                alt="Muiz Mahmood, VFX artist and 3D product visualizer portrait"
                 fill
                 sizes="(max-width: 768px) 80vw, 280px"
                 className="object-cover"

@@ -29,17 +29,24 @@ const SocialMediaButtons = () => {
   return (
     <div ref={ref} className="z-10 flex items-center">
       {show &&
-        BUTTONS.map((button) => (
-          <Link
-            href={button.href}
-            key={button.name}
-            target={button.external ? "_blank" : undefined}
-            rel={button.external ? "noopener noreferrer" : undefined}
-            aria-label={button.name}
-          >
-            <Button variant={"ghost"}>{button.icon}</Button>
-          </Link>
-        ))}
+        BUTTONS.map((button) => {
+          const isLinkedIn = button.name === "LinkedIn";
+          return (
+            <Link
+              href={button.href}
+              key={button.name}
+              target={button.external ? "_blank" : undefined}
+              rel={button.external
+                ? `noopener noreferrer${isLinkedIn ? " me" : ""}`
+                : isLinkedIn
+                ? "me"
+                : undefined}
+              aria-label={button.name}
+            >
+              <Button variant={"ghost"}>{button.icon}</Button>
+            </Link>
+          );
+        })}
     </div>
   );
 };

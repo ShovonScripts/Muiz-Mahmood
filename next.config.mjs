@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
   reactStrictMode: true,
-  cacheComponents: true,
+  // Static export has no image optimizer; serve images as-is so next/image
+  // doesn't emit /_next/image URLs that 404 on plain Apache/cPanel hosting.
+  images: { unoptimized: true },
   async headers() {
     return [
       {

@@ -29,11 +29,13 @@ const Frame = ({
   onZoom,
   priority,
   onImageLoad,
+  alt = "Project screenshot",
 }: {
   image: string;
   onZoom: () => void;
   priority?: boolean;
   onImageLoad?: () => void;
+  alt?: string;
 }) => (
   <motion.button
     type="button"
@@ -48,7 +50,7 @@ const Frame = ({
   >
     <Image
       src={image}
-      alt="Project screenshot"
+      alt={alt}
       width={1600}
       height={1000}
       priority={priority}
@@ -72,7 +74,13 @@ const Frame = ({
   </motion.button>
 );
 
-const SlideShow = ({ images }: { images: string[] }) => {
+const SlideShow = ({
+  images,
+  alt = "Project screenshot",
+}: {
+  images: string[];
+  alt?: string | string[];
+}) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const isOpen = selectedIndex !== null;
   const multiple = images.length > 1;
@@ -134,6 +142,7 @@ const SlideShow = ({ images }: { images: string[] }) => {
                   priority={idx === 0}
                   onZoom={() => setSelectedIndex(idx)}
                   onImageLoad={remeasure}
+                  alt={Array.isArray(alt) ? alt[idx] : alt}
                 />
               </SplideSlide>
             ))}
@@ -160,7 +169,7 @@ const SlideShow = ({ images }: { images: string[] }) => {
         </Splide>
       ) : (
         <div className="my-2">
-          <Frame image={images[0]} priority onZoom={() => setSelectedIndex(0)} />
+          <Frame image={images[0]} priority onZoom={() => setSelectedIndex(0)} alt={Array.isArray(alt) ? alt[0] : alt} />
         </div>
       )}
 

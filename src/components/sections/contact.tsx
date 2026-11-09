@@ -114,7 +114,7 @@ const ContactSection = () => {
                 <a
                   href={config.social.linkedin}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer me"
                   className="group cursor-can-hover rounded-xl border border-border/60 bg-secondary/20 p-5 transition-colors hover:border-foreground/20 hover:bg-secondary/40 dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-emerald-300/25 dark:hover:bg-emerald-300/[0.06]"
                 >
                   <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">

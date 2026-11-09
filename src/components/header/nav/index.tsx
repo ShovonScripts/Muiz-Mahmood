@@ -47,6 +47,7 @@ const Index: React.FC<IndexProps> = ({ setIsActive }) => {
         <Image
           src={links[selectedLink.index].thumbnail}
           isActive={selectedLink.isActive}
+          alt={`${links[selectedLink.index].title} section preview`}
         />
       </div>
       {/* Subtle reduced-motion control, tucked into the bottom-right of the menu.
