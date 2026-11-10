@@ -8,8 +8,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ResumeViewer from "./resume-viewer";
 
-// Drop the compiled PDF here: public/Muiz_Mahmood_Resume.pdf
-const RESUME_PATH = "/Muiz_Mahmood_Resume.pdf";
+// Drop the compiled PDF here: public/Muiz_Mahmood_CV.pdf
+const RESUME_PATH = "/Muiz_Mahmood_CV.pdf";
+const RESUME_DISPLAY_NAME = "Muiz Mahmood CV-5-01";
 
 export default function ResumeView() {
   return (
@@ -39,7 +40,7 @@ export default function ResumeView() {
           </Link>
           <a
             href={RESUME_PATH}
-            download
+            download={RESUME_DISPLAY_NAME}
             className={cn(buttonVariants(), "group flex gap-2")}
           >
             <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
@@ -57,9 +58,9 @@ export default function ResumeView() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="aspect-[210/297] w-full overflow-hidden rounded-2xl bg-white shadow-xl"
         >
-          <ResumeViewer
+<ResumeViewer
             src={`${RESUME_PATH}#toolbar=0&navpanes=0&view=FitH`}
-            title="Muiz Mahmood â€” RÃ©sumÃ©"
+            title={RESUME_DISPLAY_NAME}
           />
         </motion.div>
       </div>

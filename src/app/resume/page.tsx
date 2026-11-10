@@ -4,11 +4,11 @@ import { JsonLd } from "@/components/json-ld";
 import { resumeGraph } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Résumé",
+  title: "Muiz Mahmood CV-5-01",
   description: "Résumé of Muiz Mahmood — VFX Artist & 3D Product Visualization Specialist. View online or download the PDF.",
   alternates: { canonical: "./" },
   openGraph: {
-    title: "Résumé — Muiz Mahmood",
+    title: "Muiz Mahmood CV-5-01",
     description: "VFX Artist & 3D Product Visualization Specialist résumé.",
     url: "/resume",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Résumé — Muiz Mahmood",
+    title: "Muiz Mahmood CV-5-01",
     description: "VFX Artist & 3D Product Visualization Specialist résumé.",
     images: ["/assets/seo/og-image.png"],
   },
