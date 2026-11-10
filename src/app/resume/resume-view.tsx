@@ -49,7 +49,7 @@ export default function ResumeView() {
         </motion.div>
       </div>
 
-      {/* PDF viewer â€” centered on mobile (short A4 card), top-aligned on desktop (tall) */}
+      {/* PDF viewer — centered on mobile (short A4 card), top-aligned on desktop (tall) */}
       <div className="mx-auto flex w-full max-w-4xl flex-1 items-center justify-center px-2 pb-6 md:items-start md:px-4 md:pb-24">
         {/* opacity-only animation: a transformed ancestor would trap the fixed doodle FAB */}
         <motion.div
@@ -58,7 +58,7 @@ export default function ResumeView() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="aspect-[210/297] w-full overflow-hidden rounded-2xl bg-white shadow-xl"
         >
-<ResumeViewer
+          <ResumeViewer
             src={`${RESUME_PATH}#toolbar=0&navpanes=0&view=FitH`}
             title={RESUME_DISPLAY_NAME}
           />

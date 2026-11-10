@@ -151,7 +151,7 @@ export const resumeGraph = {
       name: `${config.author} — Résumé`,
       description: `Résumé of ${config.author}, VFX Artist & 3D Product Visualization Specialist.`,
       encodingFormat: "application/pdf",
-      contentUrl: `${SITE}/Muiz_Mahmood_Resume.pdf`,
+      contentUrl: `${SITE}/Muiz_Mahmood_CV.pdf`,
       about: { "@id": PERSON_ID },
     },
   ],
